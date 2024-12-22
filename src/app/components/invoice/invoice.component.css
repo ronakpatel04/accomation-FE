@@ -1,0 +1,114 @@
+.custom-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #495057; 
+    margin-bottom: 0.5rem;
+    display: inline-block;
+  }
+  
+  .custom-input {
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 0.5rem;
+  }
+  
+  .custom-add-button {
+    border-color: #007ad9;
+    color: #007ad9;
+  }
+  
+  .custom-add-button:hover {
+    background-color: #e8f4ff;
+    border-color: #0056b3;
+  }
+  
+  .p-button {
+    font-size: 1rem;
+  }
+  
+  .p-table {
+    margin-top: 1rem;
+  }
+
+  .custom-add-button {
+    border-color: #007ad9;
+    color: #007ad9;
+  }
+  
+  .custom-add-button:hover {
+    background-color: #e8f4ff;
+    border-color: #0056b3;
+  }
+  
+  .custom-submit-button {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: #ffffff;
+  }
+  
+  .custom-submit-button:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+  }
+
+  .p-card {
+    margin-bottom: 1rem;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .p-card .p-card-header {
+    background-color: #f0f0f0;
+    color: #333;
+    font-size: 1.25rem;
+    padding: 1rem;
+    text-align: center;
+  }
+  
+  .p-card .p-card-body {
+    padding: 1rem;
+  }
+  
+  .p-table {
+    margin-top: 1rem;
+  }
+  
+  .p-dialog .p-dialog-header {
+    background-color: #ff8c00;
+    color: white;
+  }
+  
+  .p-dialog .p-dialog-footer {
+    text-align: center;
+  }
+  
+  .p-button {
+    margin-right: 10px;
+  }
+  
+  .p-shadow-3 {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .custom-label {
+    font-weight: bold;
+  }
+  
+  .custom-input {
+    width: 100%;
+  }
+  
+  .custom-add-button {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .custom-submit-button {
+    background-color: #ff8c00;
+    color: white;
+  }
+  
+  .p-text-bold {
+    font-weight: 600;
+  }

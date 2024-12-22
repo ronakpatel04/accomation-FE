@@ -1,0 +1,17 @@
+.toast-success {
+    background-color: #28a745 !important; 
+    color: white !important;
+    border: 1px solid #1e7e34 !important;
+    font-family: Arial, sans-serif !important; 
+    font-size: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+  }
+  
+  .toast-success .toast-title {
+    font-weight: bold !important; 
+  }
+  
+  .toast-success .toast-message {
+    font-style: italic !important; 
+  }
+  

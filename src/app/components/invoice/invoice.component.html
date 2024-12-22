@@ -1,0 +1,231 @@
+<div class="header">
+    <h3> Invoice Management</h3>
+  </div>
+  
+  
+  <button pButton type="button" label="Add Invoice" icon="pi pi-plus" (click)="showDialogToAdd()"></button>
+  <p-table [value]="invoices" [paginator]="true" [rows]="5" [lazy]="false" [rowsPerPageOptions]="[5, 10, 20]">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>#</th>
+        <th>Invoice Number</th>
+        <th>Invoice Date</th>
+        <th>From Name</th>
+        <th>To Name</th>
+        <th>Total Amount</th>
+        <th>Action</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-invoices let-rowIndex="rowIndex">
+      <tr>
+        <td>{{ rowIndex + 1 }}</td>
+        <td>{{ invoices.invoiceNumber }}</td>
+        <td>{{ invoices.invoiceDate | date: 'MMM dd, yyyy' }}</td>
+        <td>{{ invoices.fromName }}</td>
+        <td>{{ invoices.toName }}</td>
+        <td>{{ invoices.totalAmount || 0 }}</td>
+        <td>
+          <button
+            pButton
+            type="button"
+            icon="pi pi-eye"
+            label="View Details"
+            class="p-button-rounded p-button-info p-button-sm"
+            (click)="viewInvoiceDetails(invoices)"
+          ></button>
+        </td>
+        </tr>
+    </ng-template>
+  </p-table>
+  
+  <p-dialog header="Add Invoice" [(visible)]="displayDialog" [modal]="true" [closable]="true" [responsive]="true">
+    <form [formGroup]="invoiceForm" (ngSubmit)="submitInvoice()" class="p-fluid">
+        <div class="p-grid p-mb-4">
+          <div class="p-col-12 p-md-4">
+            <div class="p-field">
+              <label for="fromName" class="custom-label">From Name</label>
+              <input id="fromName" pInputText formControlName="fromName" class="custom-input" />
+            </div>
+          </div>
+          <div class="p-col-12 p-md-4">
+            <div class="p-field">
+              <label for="fromAddress" class="custom-label">From Address</label>
+              <input id="fromAddress" pInputText formControlName="fromAddress" class="custom-input" />
+            </div>
+          </div>
+          <div class="p-col-12 p-md-4">
+            <div class="p-field">
+              <label for="toName" class="custom-label">To Name</label>
+              <input id="toName" pInputText formControlName="toName" class="custom-input" />
+            </div>
+          </div>
+          <div class="p-col-12 p-md-4">
+            <div class="p-field">
+              <label for="toAddress" class="custom-label">To Address</label>
+              <input id="toAddress" pInputText formControlName="toAddress" class="custom-input" />
+            </div>
+          </div>
+        </div>
+        <div class="p-col-12 p-md-4">
+            <div class="p-field">
+              <label for="invoiceDate" class="custom-label">Invoice Date</label>
+              <input  type="date" formControlName="invoiceDate" class="custom-input">
+            </div>
+         </div>
+      
+      
+        <div class="p-mb-4">
+          <label for="itemsTable" class="custom-label p-text-bold">Invoice Items</label>
+          <p-table [value]="items.controls" editMode="row" id="itemsTable">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Item Name</th>
+                <th>Qty</th>
+                <th>Rate</th>
+                <th>Total</th>
+                <th>Actions</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+              <tr [pEditableRow]="item">
+                <td pEditableColumn>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input type="text" pInputText [formControl]="item.get('itemName')" />
+                    </ng-template>
+                    <ng-template pTemplate="output">{{ item.get('itemName')?.value }}</ng-template>
+                  </p-cellEditor>
+                </td>
+                <td pEditableColumn>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input type="number" pInputText [formControl]="item.get('quantity')" />
+                    </ng-template>
+                    <ng-template pTemplate="output">{{ item.get('quantity')?.value }}</ng-template>
+                  </p-cellEditor>
+                </td>
+                <td pEditableColumn>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input type="number" pInputText [formControl]="item.get('rate')" />
+                    </ng-template>
+                    <ng-template pTemplate="output">{{ item.get('rate')?.value }}</ng-template>
+                  </p-cellEditor>
+                </td>
+                <td>{{ item.get('quantity')?.value * item.get('rate')?.value }}</td>
+                <td>
+                  <button pButton type="button" icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="removeItem(i)"></button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+            </div>
+        <div class="p-d-flex p-jc-end p-ai-center p-mb-4 button-group">
+            <button
+              pButton
+              type="button"
+              label="Add Item"
+              class="p-button-outlined p-button-sm custom-add-button p-mr-2"
+              (click)="addItem()"
+            ></button>
+            <button
+              pButton
+              type="submit"
+              label="Submit Invoice"
+              class="p-button-success p-button-sm custom-submit-button"
+            ></button>
+          </div>
+          
+      </form>
+             
+  </p-dialog>
+
+
+  <p-dialog
+  header="Invoice Details"
+  [(visible)]="displayInvoiceDetailsDialog"
+  [modal]="true"
+  [closable]="true"
+  [responsive]="true"
+  [style]="{ width: '60vw' }"
+>
+  <div class="p-grid p-dir-col">
+    <!-- From and To Information -->
+    <div class="p-col-12 p-md-6">
+      <p-card>
+        <ng-template pTemplate="title">
+          <i class="pi pi-user"></i> From Details
+        </ng-template>
+        <ng-template pTemplate="content">
+          <p><strong>Name:</strong> {{ selectedInvoice?.fromName }}</p>
+          <p><strong>Address:</strong> {{ selectedInvoice?.fromAddress }}</p>
+        </ng-template>
+      </p-card>
+    </div>
+    <div class="p-col-12 p-md-6">
+      <p-card>
+        <ng-template pTemplate="title">
+          <i class="pi pi-user"></i> To Details
+        </ng-template>
+        <ng-template pTemplate="content">
+          <p><strong>Name:</strong> {{ selectedInvoice?.toName }}</p>
+          <p><strong>Address:</strong> {{ selectedInvoice?.toAddress }}</p>
+        </ng-template>
+      </p-card>
+    </div>
+
+    <!-- Invoice Date -->
+    <div class="p-col-12">
+      <p-card>
+        <ng-template pTemplate="title">
+          <i class="pi pi-calendar"></i> Invoice Date
+        </ng-template>
+        <ng-template pTemplate="content">
+          <p>{{ selectedInvoice?.invoiceDate | date: 'MMM dd, yyyy' }}</p>
+        </ng-template>
+      </p-card>
+    </div>
+
+    <!-- Invoice Items -->
+    <div class="p-col-12">
+      <p-card>
+        <ng-template pTemplate="title">
+          <i class="pi pi-list"></i> Invoice Items
+        </ng-template>
+        <ng-template pTemplate="content">
+          <p-table [value]="selectedInvoice?.items">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Item Name</th>
+                <th>Qty</th>
+                <th>Rate</th>
+                <th>Total</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item>
+              <tr>
+                <td>{{ item.itemName }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.rate }}</td>
+                <td>{{ item.total }}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </ng-template>
+      </p-card>
+    </div>
+
+    <div class="p-col-12">
+      <p-card class="p-shadow-3" >
+        <ng-template pTemplate="title">
+          <i class="pi pi-wallet"></i> Total Amount
+        </ng-template>
+        
+        <ng-template pTemplate="content">
+          <h2 class="p-text-bold">{{ totalAmountOfItems | currency }}</h2>
+        </ng-template>
+        
+      </p-card>
+    </div>
+  </div>
+</p-dialog>  
